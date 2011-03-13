@@ -5,35 +5,35 @@ end tell
 set idleTime to (do shell script "ioreg -c IOHIDSystem | perl -ane 'if (/Idle/) {$idle=(pop @F)/1000000000; print $idle,\"\";last}'")
 
 set window_name to ""
-tell application frontApp
-	if the (count of windows) is not 0 then
+try
+	tell application frontApp
 		set window_name to name of front window
-	end if
-end tell
+	end tell
+end try
 
 set weburl to ""
-if frontApp = "Google Chrome" then
-	tell application "Google Chrome"
-		if the (count of windows) is not 0 then
-			set weburl to URL of first tab of front window
-		end if
-	end tell
-else if frontApp = "Finder" then
-	try
-		tell application "Finder"
-			set weburl to "file://" & POSIX path of ((folder of the front window) as text)
+try
+	if frontApp = "Google Chrome" then
+		tell application "Google Chrome"
+			if the (count of windows) is not 0 then
+				set weburl to URL of first tab of front window
+			end if
 		end tell
-	end try
-else if frontApp = "Terminal" then
-	set p to POSIX path of (path to me) as string
-	set weburl to "file://" & (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
-else if frontApp = "Xcode" then
-	try
+	else if frontApp = "Finder" then
+		try
+			tell application "Finder"
+				set weburl to "file://" & POSIX path of ((folder of the front window) as text)
+			end tell
+		end try
+	else if frontApp = "Terminal" then
+		set p to POSIX path of (path to me) as string
+		set weburl to "file://" & (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
+	else if frontApp = "Xcode" then
 		tell application "Xcode"
 			set weburl to "file://" & POSIX path of (file of front text document as string)
 		end tell
-	end try
-end if
+	end if
+end try
 
 return {frontApp, window_name, weburl, idleTime}
 
