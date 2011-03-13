@@ -24,6 +24,9 @@ else if frontApp = "Finder" then
 			set weburl to "file://" & POSIX path of ((folder of the front window) as text)
 		end tell
 	end try
+else if frontApp = "Terminal" then
+	set p to POSIX path of (path to me) as string
+	set weburl to (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
 end if
 
 return {frontApp, window_name, weburl, idleTime}
