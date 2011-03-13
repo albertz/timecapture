@@ -2,6 +2,8 @@ tell application "System Events"
 	set frontApp to name of first application process whose frontmost is true
 end tell
 
+set idleTime to (do shell script "ioreg -c IOHIDSystem | perl -ane 'if (/Idle/) {$idle=(pop @F)/1000000000; print $idle,\"\";last}'")
+
 set window_name to ""
 tell application frontApp
 	if the (count of windows) is not 0 then
@@ -18,5 +20,5 @@ if frontApp = "Google Chrome" then
 	end tell
 end if
 
-return {frontApp, window_name, weburl}
+return {frontApp, window_name, weburl, idleTime}
 
