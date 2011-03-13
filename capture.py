@@ -27,6 +27,7 @@ else:
 	raise Exception, "missing support for your platform"
 
 def main():
+	global userdir
 	userdir = os.path.expanduser(userdir)
 	try: os.makedirs(userdir)
 	except: pass
