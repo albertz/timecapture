@@ -26,7 +26,7 @@ else if frontApp = "Finder" then
 	end try
 else if frontApp = "Terminal" then
 	set p to POSIX path of (path to me) as string
-	set weburl to (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
+	set weburl to "file://" & (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
 end if
 
 return {frontApp, window_name, weburl, idleTime}
