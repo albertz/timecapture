@@ -34,6 +34,9 @@ try
 		end tell
 	end if
 end try
+if weburl = missing value then
+	set weburl to ""
+end if
 
 return {frontApp, window_name, weburl, idleTime}
 
