@@ -6,24 +6,28 @@ import ast, subprocess
 import re
 
 mydir = os.path.dirname(sys.argv[0])
+userdir = "~/.TimeCapture"
 
 if sys.platform == "darwin":
+	userdir = "~/Library/Application Support/TimeCapture"
 	def get_app_info():
-		ret = subprocess.Popen(["osascript", "-ss", mydir + "/get_foregroundapp_info.scpt"], stdout=subprocess.PIPE).stdout.read()
-		ret = ret.strip()
-		ret, = re.match("^\{(.*)\}$", ret).groups()
-		ret = ast.literal_eval("(" + ret + ")")
-		return ret
+		try:
+			ret = subprocess.Popen(["osascript", "-ss", mydir + "/mac/get_foregroundapp_info.scpt"], stdout=subprocess.PIPE).stdout.read()
+			ret = ret.strip()
+			ret, = re.match("^\{(.*)\}$", ret).groups()
+			ret = ast.literal_eval("(" + ret + ")")
+			return ret
+		except:
+			return None
 else:
 	raise Exception, "missing support for your platform"
 
-try: os.mkdir(os.path.expanduser("~/.timecapture"))
+userdir = os.path.expanduser(userdir)
+try: os.makedirs(userdir)
 except: pass
 
 while True:
-	logfile = "~/.timecapture/capture-" + datetime.date.today().isoformat()
-	logfile = os.path.expanduser(logfile)
-
+	logfile = userdir + "/capture-" + datetime.date.today().isoformat()
 	logfile = open(logfile, "a")
 
 	timetuple = datetime.datetime.today().timetuple()[0:6]
