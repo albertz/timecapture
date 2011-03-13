@@ -1,14 +1,15 @@
 tell application "System Events"
-	set frontApp to name of first application process whose frontmost is true
+	set frontApp to first application process whose frontmost is true
 end tell
 
 set idleTime to (do shell script "ioreg -c IOHIDSystem | perl -ane 'if (/Idle/) {$idle=(pop @F)/1000000000; print $idle,\"\";last}'")
 
 set window_name to ""
 try
-	tell application frontApp
-		set window_name to name of front window
-	end tell
+	set window_name to name of front window of frontApp
+end try
+try
+	set frontApp to name of frontApp
 end try
 
 set weburl to ""
