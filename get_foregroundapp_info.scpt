@@ -18,6 +18,12 @@ if frontApp = "Google Chrome" then
 			set weburl to URL of first tab of front window
 		end if
 	end tell
+else if frontApp = "Finder" then
+	try
+		tell application "Finder"
+			set weburl to "file://" & POSIX path of ((folder of the front window) as text)
+		end tell
+	end try
 end if
 
 return {frontApp, window_name, weburl, idleTime}
