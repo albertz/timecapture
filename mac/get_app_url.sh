@@ -1,6 +1,7 @@
 #!/bin/bash
 
 appname="$1"
+windowtitle="$2"
 [ "$appname" = "" ] && echo "expecting app-name" && exit 1
 
 mydir="$(dirname "$0")"
@@ -12,7 +13,7 @@ script="$mydir/app-scripts/url of $appname"
 }
 
 [ -e "$script.sh" ] && {
-	"./$script.sh" 2>/dev/null
+	sh "$script.sh" "$windowtitle"
 	exit $?
 }
 

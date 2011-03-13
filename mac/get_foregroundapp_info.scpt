@@ -17,7 +17,7 @@ end try
 set weburl to ""
 try
 	set p to POSIX path of (path to me) as string
-	set weburl to (do shell script "sh \"$(dirname \"" & p & "\")/get_app_url.sh\" \"" & frontAppName & "\"")
+	set weburl to (do shell script "sh \"$(dirname \"" & p & "\")/get_app_url.sh\" \"" & frontAppName & "\" \"" & window_name & "\"")
 end try
 if weburl = missing value then
 	set weburl to ""
