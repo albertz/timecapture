@@ -28,9 +28,11 @@ else if frontApp = "Terminal" then
 	set p to POSIX path of (path to me) as string
 	set weburl to "file://" & (do shell script "sh \"$(dirname \"" & p & "\")/get_foregroundterminal_curdir.sh\"")
 else if frontApp = "Xcode" then
-	tell application "Xcode"
-		set weburl to "file://" & POSIX path of (file of front text document as string)
-	end tell
+	try
+		tell application "Xcode"
+			set weburl to "file://" & POSIX path of (file of front text document as string)
+		end tell
+	end try
 end if
 
 return {frontApp, window_name, weburl, idleTime}
