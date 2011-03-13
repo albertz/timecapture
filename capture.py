@@ -5,7 +5,7 @@ import os, os.path, sys
 import ast, subprocess
 import re
 
-mydir = os.path.dirname(sys.argv[0])
+mydir = os.path.dirname(sys.argv[0]) or os.getcwd()
 userdir = "~/.TimeCapture"
 
 if sys.platform == "darwin":
@@ -15,24 +15,32 @@ if sys.platform == "darwin":
 			ret = subprocess.Popen(["osascript", "-ss", mydir + "/mac/get_foregroundapp_info.scpt"], stdout=subprocess.PIPE).stdout.read()
 			ret = ret.strip()
 			ret, = re.match("^\{(.*)\}$", ret).groups()
-			ret = ast.literal_eval("(" + ret + ")")
-			return ret
-		except:
+			appname,windowtitle = ast.literal_eval("(" + ret + ")")
+			idletime = subprocess.Popen(["sh", mydir + "/mac/get_idletime.sh"], stdout=subprocess.PIPE).stdout.read().strip()
+			idletime = float(idletime)
+			url = subprocess.Popen(["sh", mydir + "/mac/get_app_url.sh", appname, windowtitle], stdout=subprocess.PIPE).stdout.read().strip()
+			return appname, windowtitle, url, idletime
+		except Exception, e:
+			print e
 			return None
 else:
 	raise Exception, "missing support for your platform"
 
-userdir = os.path.expanduser(userdir)
-try: os.makedirs(userdir)
-except: pass
+def main():
+	userdir = os.path.expanduser(userdir)
+	try: os.makedirs(userdir)
+	except: pass
 
-while True:
-	logfile = userdir + "/capture-" + datetime.date.today().isoformat()
-	logfile = open(logfile, "a")
+	while True:
+		logfile = userdir + "/capture-" + datetime.date.today().isoformat()
+		logfile = open(logfile, "a")
 
-	timetuple = datetime.datetime.today().timetuple()[0:6]
+		timetuple = datetime.datetime.today().timetuple()[0:6]
 
-	logfile.write( repr((timetuple, get_app_info())) + "\n" )
-	logfile.close()
+		logfile.write( repr((timetuple, get_app_info())) + "\n" )
+		logfile.close()
 
-	time.sleep(10)
+		time.sleep(10)
+
+if __name__ == "__main__":
+	main()
