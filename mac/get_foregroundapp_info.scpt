@@ -8,6 +8,9 @@ set window_name to ""
 try
 	set window_name to name of front window of frontApp
 end try
+if window_name = missing value then
+	set window_name to ""
+end if
 
 set frontAppName to ""
 try
