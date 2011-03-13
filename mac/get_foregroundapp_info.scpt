@@ -1,3 +1,5 @@
+global frontApp, frontAppName, idleTime, window_name
+
 tell application "System Events"
 	set frontApp to first application process whose frontmost is true
 end tell
