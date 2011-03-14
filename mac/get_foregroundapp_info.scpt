@@ -1,19 +1,14 @@
-global frontApp, frontAppName, windowName
+global frontApp, frontAppName, windowTitle
 
-set windowName to ""
+set windowTitle to ""
 tell application "System Events"
 	set frontApp to first application process whose frontmost is true
-	try
-		set windowName to (name of front window of frontApp) as string
-	end try
-end tell
-if windowName = missing value then
-	set windowName to ""
-end if
-
-set frontAppName to ""
-try
 	set frontAppName to name of frontApp
-end try
+	tell process frontAppName
+		tell (1st window whose value of attribute "AXMain" is true)
+			set windowTitle to value of attribute "AXTitle"
+		end tell
+	end tell
+end tell
 
-return {frontAppName, windowName}
+return {frontAppName, windowTitle}
