@@ -3,7 +3,7 @@ global frontApp, frontAppName, windowTitle
 set windowTitle to ""
 tell application "System Events"
 	set frontApp to first application process whose frontmost is true
-	set frontAppName to name of frontApp
+	set frontAppName to short name of frontApp
 	try
 		tell process frontAppName
 			tell (1st window whose value of attribute "AXMain" is true)
