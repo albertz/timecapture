@@ -35,9 +35,11 @@ function call_applescript {
 
 {
 	echo "tell application \"System Events\""
-	echo "tell process \"$appname\""
-	echo "set weburl to value of attribute \"AXDocument\" of front window"
-	echo "end tell"
+	echo "  tell process \"$appname\""
+    echo "    tell (1st window whose value of attribute \"AXMain\" is true)"
+	echo "      return value of attribute \"AXDocument\""
+	echo "    end tell"
+	echo "  end tell"
 	echo "end tell"
 } | call_applescript - && exit 0
 
