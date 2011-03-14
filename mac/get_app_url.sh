@@ -23,6 +23,11 @@ function call_applescript {
 	exit $?
 }
 
+[ -e "$script.py" ] && {
+	python "$script.py" "$windowtitle"
+	exit $?
+}
+
 # NOTE: This has the huge drawback that it sometimes opens another instance of the app.
 # For example, I had several OpenLieroX instances on my PC and has started one of it.
 # This little snippet here just started another instance.
