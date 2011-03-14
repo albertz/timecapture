@@ -36,7 +36,7 @@ function call_applescript {
 {
 	echo "tell application \"System Events\""
 	echo "  tell process \"$appname\""
-    echo "    tell (1st window whose value of attribute \"AXMain\" is true)"
+	echo "    tell (1st window whose value of attribute \"AXMain\" is true)"
 	echo "      return value of attribute \"AXDocument\""
 	echo "    end tell"
 	echo "  end tell"
