@@ -26,6 +26,7 @@ function call_applescript {
 # NOTE: This has the huge drawback that it sometimes opens another instance of the app.
 # For example, I had several OpenLieroX instances on my PC and has started one of it.
 # This little snippet here just started another instance.
+# Also, it seems that the fallback below covers anyway all cases.
 #{
 #	echo "tell application \"$appname\""
 #	echo "set weburl to \"file://\" & (path of front document as string)"
