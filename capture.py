@@ -19,7 +19,7 @@ if sys.platform == "darwin":
 			idletime = subprocess.Popen(["sh", mydir + "/mac/get_idletime.sh"], stdout=subprocess.PIPE).stdout.read().strip()
 			idletime = float(idletime)
 			url = subprocess.Popen(["sh", mydir + "/mac/get_app_url.sh", appname, windowtitle], stdout=subprocess.PIPE).stdout.read().strip()
-			return appname, windowtitle, url, idletime
+			return {"appName":appname, "windowTitle":windowtitle, "url":url, "idleTime":idletime}
 		except Exception, e:
 			print e
 			return None
