@@ -5,7 +5,7 @@ import os, os.path, sys
 import ast, subprocess
 import re
 
-mydir = os.path.dirname(__file__)
+mydir = os.path.dirname(__file__) or os.getcwd()
 userdir = "~/.TimeCapture"
 
 if sys.platform == "darwin":
