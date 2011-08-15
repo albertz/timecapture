@@ -8,6 +8,13 @@ import re
 mydir = os.path.dirname(__file__) or os.getcwd()
 userdir = "~/.TimeCapture"
 
+def local_filename_from_url(filename):
+	if not filename.startswith("file://"): return None
+	removestart = lambda s, t: s[len(t):] if s.startswith(t) else s
+	filename = removestart(filename, "file://localhost")
+	filename = removestart(filename, "file://")
+	return filename
+
 if sys.platform == "darwin":
 	userdir = "~/Library/Application Support/TimeCapture"
 	def get_app_info():
@@ -19,6 +26,11 @@ if sys.platform == "darwin":
 			idletime = subprocess.Popen(["sh", mydir + "/mac/get_idletime.sh"], stdout=subprocess.PIPE).stdout.read().strip()
 			idletime = float(idletime)
 			url = subprocess.Popen(["sh", mydir + "/mac/get_app_url.sh", appname, windowtitle], stdout=subprocess.PIPE).stdout.read().strip()
+			localfn = local_filename_from_url(url)
+			if localfn is not None:
+				m = re.match(r"(.*/Library/Containers/[^/]*/Data/[^/]*)(.*)", localfn)
+				if m and os.path.islink(m.groups()[0]):
+					url = "file://" + os.path.normpath(os.path.join(os.path.dirname(m.groups()[0]), os.readlink(m.groups()[0]))) + m.groups()[1]
 			return {"appName":appname, "windowTitle":windowtitle, "url":url, "idleTime":idletime}
 		except Exception, e:
 			print e
