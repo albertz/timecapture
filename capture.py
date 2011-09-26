@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+import better_exchook
+better_exchook.install()
+
 import datetime, time
 import os, os.path, sys
 import ast, subprocess
