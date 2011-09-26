@@ -72,12 +72,11 @@ elif sys.platform == "win32":
 else:
 	raise Exception, "missing support for your platform"
 
-def main():
-	global userdir
-	userdir = os.path.expanduser(userdir)
-	try: os.makedirs(userdir)
-	except: pass
+userdir = os.path.expanduser(userdir)
+try: os.makedirs(userdir)
+except: pass
 
+def main():
 	while True:
 		logfile = userdir + "/capture-" + datetime.date.today().isoformat()
 		logfile = open(logfile, "a")
