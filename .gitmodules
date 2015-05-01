@@ -1,0 +1,4 @@
+[submodule "foreground_app_info"]
+	path = foreground_app_info
+	url = https://github.com/albertz/foreground_app_info.git
+	branch = master
