@@ -13,4 +13,9 @@ Also, time management:
 
 * Maybe something like [Pomodoro](https://github.com/ugol/pomodoro)?
 
+Related projects:
+
+* [Qbserve - Automatic Private Time Tracking](https://qotoqot.com/qbserve/). Commercial, MacOSX.
+* [Timing App](https://timingapp.com). Commercial, MacOSX.
+
 -Albert Zeyer, <http://www.az2000.de/>
