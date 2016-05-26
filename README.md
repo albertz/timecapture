@@ -17,5 +17,6 @@ Related projects:
 
 * [Qbserve - Automatic Private Time Tracking](https://qotoqot.com/qbserve/). Commercial, MacOSX.
 * [Timing App](https://timingapp.com). Commercial, MacOSX.
+* [RescueTime](https://www.rescuetime.com). Commercial. Cross-platform.
 
 -Albert Zeyer, <http://www.az2000.de/>
