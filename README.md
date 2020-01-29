@@ -17,7 +17,8 @@ Also, time management:
 
 Related projects:
 
-* [Selfspy](https://github.com/gurgeh/selfspy). Open Source, Python ,cross-platform.
+* [Selfspy](https://github.com/gurgeh/selfspy). Open Source (GPL), Python, cross-platform.
+* [arbtt - automatic, rule-based time tracker](https://arbtt.nomeata.de/). Open [source](https://bitbucket.org/nomeata/arbtt/src/master/) (GPL), cross-platform, Haskell.
 * [Qbserve - Automatic Private Time Tracking](https://qotoqot.com/qbserve/). Commercial, MacOSX.
 * [Timing App](https://timingapp.com). Commercial, MacOSX.
 * [RescueTime](https://www.rescuetime.com). Commercial, cross-platform.
