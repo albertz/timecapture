@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 
-import datetime, time
-import os, os.path, sys
-import ast, subprocess
+from typing import Optional
+import datetime
+import time
+import os
+import os.path
+import sys
+import ast
+import subprocess
 import re
 
 mydir = os.path.dirname(__file__) or os.getcwd()
 userdir = "~/.TimeCapture"
 
 
-def local_filename_from_url(filename):
+def local_filename_from_url(filename: str) -> Optional[str]:
     if not filename.startswith("file://"):
         return None
     removestart = lambda s, t: s[len(t) :] if s.startswith(t) else s
@@ -37,6 +42,7 @@ if sys.platform == "darwin":
                 subprocess.Popen(["sh", mydir + "/mac/get_app_url.sh", appname, windowtitle], stdout=subprocess.PIPE)
                 .stdout.read()
                 .strip()
+                .decode("utf-8")
             )
             localfn = local_filename_from_url(url)
             if localfn is not None:
@@ -51,6 +57,7 @@ if sys.platform == "darwin":
         except Exception as e:
             print(e)
             return None
+
 elif sys.platform == "win32":
     from win32com.shell import shellcon, shell
 
@@ -66,7 +73,10 @@ elif sys.platform == "win32":
             # Request privileges to enable "debug process", so we can
             # later use PROCESS_VM_READ, retardedly required to
             # GetModuleFileNameEx()
-            import win32security, win32con, win32process, win32api
+            import win32security
+            import win32con
+            import win32process
+            import win32api
 
             priv_flags = win32security.TOKEN_ADJUST_PRIVILEGES | win32security.TOKEN_QUERY
             hToken = win32security.OpenProcessToken(win32api.GetCurrentProcess(), priv_flags)
@@ -94,17 +104,15 @@ elif sys.platform == "win32":
             return None
 
     print("WARNING: win32 support is untested", file=sys.stderr)
+
 else:
-    raise Exception("missing support for your platform")
+    raise Exception(f"missing support for your platform {sys.platform}")
 
 
 def main():
     global userdir
     userdir = os.path.expanduser(userdir)
-    try:
-        os.makedirs(userdir)
-    except:
-        pass
+    os.makedirs(userdir, exist_ok=True)
 
     while True:
         logfile = userdir + "/capture-" + datetime.date.today().isoformat()
