@@ -58,15 +58,11 @@ def process_logs(limit: Optional[int] = None):
         with open(fn, "r") as f:
             for line in f:
                 line = line.strip()
-                if not line:
+                if not line or not line.startswith("("):
                     continue
                 
                 # We expect lines to be (timestamp, info) tuples
-                try:
-                    timestamp, info = ast.literal_eval(line)
-                except (ValueError, SyntaxError):
-                    # Skip malformed lines
-                    continue
+                timestamp, info = ast.literal_eval(line)
                     
                 if info is None:
                     continue
