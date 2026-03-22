@@ -30,12 +30,9 @@ def get_latest_mtime(path: str) -> float:
             continue
         for file in files:
             if file.endswith(".py"):
-                try:
-                    mtime = os.path.getmtime(os.path.join(root, file))
-                    if mtime > max_mtime:
-                        max_mtime = mtime
-                except OSError:
-                    continue
+                mtime = os.path.getmtime(os.path.join(root, file))
+                if mtime > max_mtime:
+                    max_mtime = mtime
     return max_mtime
 
 
