@@ -49,7 +49,8 @@ def process_logs(limit: Optional[int] = None):
     last_entry: Optional[Tuple[Tuple[int, ...], Dict[str, Any]]] = None
     
     # Process log files in chronological order
-    log_files = sorted(glob(os.path.join(capture.user_dir, "capture-????-??-??")))
+    user_dir = capture.get_user_dir()
+    log_files = sorted(glob(os.path.join(user_dir, "capture-????-??-??")))
     
     if limit:
         log_files = log_files[-limit:]
