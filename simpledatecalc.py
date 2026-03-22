@@ -10,12 +10,14 @@ def SubOp(a,b): return a-b
 
 def vec_stdform(vec, norm):
     def n(x, m):
-        if m is None: return x, 0
+        if m is None:
+            return x, 0
         return x % m, x // m
     while True:
         res = list(map(n, vec, norm))
         vec, rest = zip(*res)
-        if not any(rest): break
+        if not any(rest):
+            break
         rest = rest[1:] + (0,)
         vec = vec_op(vec, rest, SumOp)
     return vec
@@ -25,7 +27,8 @@ def vec_abs(vec, norm):
     m = 1
     for i in reversed(range(len(vec))):
         x += vec[i] * m
-        if norm[i] is None: break
+        if norm[i] is None:
+            break
         m *= norm[i]
     return x
 
@@ -42,7 +45,8 @@ def vectorize(num, norm):
             num = 0
         vec = (x,) + vec
         i -= 1
-        if i < 0: break
+        if i < 0:
+            break
     return vec
     
 def dateAbsDiff(vec1, vec2):
@@ -52,9 +56,12 @@ def dateVectorize(secs):
     return vectorize(secs, DateVecNorm)
 
 def dateStr(vec):
-    if len(vec) == 0: return "0 sec"
-    if len(vec) == 1: return "%d sec" % vec
-    if len(vec) == 2: return "%d:%02d min" % vec
+    if len(vec) == 0:
+        return "0 sec"
+    if len(vec) == 1:
+        return "%d sec" % vec
+    if len(vec) == 2:
+        return "%d:%02d min" % vec
     if len(vec) >= 3:
         return "%d:%02d:%02d" % vec[-3:]
     return str(vec)
