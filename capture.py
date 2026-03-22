@@ -9,19 +9,17 @@ import argparse
 import importlib
 from foreground_app_info import get_app_info
 
-my_dir = os.path.dirname(__file__) or os.getcwd()
-user_dir = "~/.TimeCapture"
 
-if sys.platform == "darwin":
-    user_dir = "~/Library/Application Support/TimeCapture"
-elif sys.platform == "win32":
-    from win32com.shell import shellcon, shell
-
-    user_dir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0) + "/TimeCapture"
-else:
-    raise Exception(f"missing support for your platform {sys.platform}")
-
-user_dir = os.path.expanduser(user_dir)
+def get_user_dir() -> str:
+    """Returns the platform-specific directory for storing TimeCapture data."""
+    if sys.platform == "darwin":
+        path = "~/Library/Application Support/TimeCapture"
+    elif sys.platform == "win32":
+        from win32com.shell import shellcon, shell
+        path = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0) + "/TimeCapture"
+    else:
+        raise Exception(f"missing support for your platform {sys.platform}")
+    return os.path.expanduser(path)
 
 
 def get_latest_mtime(path: str) -> float:
@@ -73,8 +71,10 @@ def main():
 
     better_exchook.install()
 
+    user_dir = get_user_dir()
     os.makedirs(user_dir, exist_ok=True)
     
+    my_dir = os.path.dirname(__file__) or os.getcwd()
     last_mtime = get_latest_mtime(my_dir) if args.hot_reload else 0
 
     while True:
