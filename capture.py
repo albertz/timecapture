@@ -8,19 +8,19 @@ import sys
 import argparse
 from foreground_app_info import get_app_info
 
-mydir = os.path.dirname(__file__) or os.getcwd()
-userdir = "~/.TimeCapture"
+my_dir = os.path.dirname(__file__) or os.getcwd()
+user_dir = "~/.TimeCapture"
 
 if sys.platform == "darwin":
-    userdir = "~/Library/Application Support/TimeCapture"
+    user_dir = "~/Library/Application Support/TimeCapture"
 elif sys.platform == "win32":
     from win32com.shell import shellcon, shell
 
-    userdir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0) + "/TimeCapture"
+    user_dir = shell.SHGetFolderPath(0, shellcon.CSIDL_APPDATA, 0, 0) + "/TimeCapture"
 else:
     raise Exception(f"missing support for your platform {sys.platform}")
 
-userdir = os.path.expanduser(userdir)
+user_dir = os.path.expanduser(user_dir)
 
 
 def main():
@@ -31,10 +31,10 @@ def main():
 
     better_exchook.install()
 
-    os.makedirs(userdir, exist_ok=True)
+    os.makedirs(user_dir, exist_ok=True)
 
     while True:
-        logfile_path = userdir + "/capture-" + datetime.date.today().isoformat()
+        logfile_path = user_dir + "/capture-" + datetime.date.today().isoformat()
         timetuple = datetime.datetime.today().timetuple()[0:6]
 
         try:

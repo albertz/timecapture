@@ -2,25 +2,36 @@
 def vec_op(vec1, vec2, op):
     return list(map(op, vec1, vec2))
 
-DateVecNorm = (None, 12, 31, 24, 60, 60)
-def SumOp(a,b): return a+b
-def SubOp(a,b): return a-b
+
+DATE_VEC_NORM = (None, 12, 31, 24, 60, 60)
+
+
+def sum_op(a, b):
+    return a + b
+
+
+def sub_op(a, b):
+    return a - b
+
 
 # all of them in reverse order
 
-def vec_stdform(vec, norm):
+
+def vec_std_form(vec, norm):
     def n(x, m):
         if m is None:
             return x, 0
         return x % m, x // m
+
     while True:
         res = list(map(n, vec, norm))
         vec, rest = zip(*res)
         if not any(rest):
             break
         rest = rest[1:] + (0,)
-        vec = vec_op(vec, rest, SumOp)
+        vec = vec_op(vec, rest, sum_op)
     return vec
+
 
 def vec_abs(vec, norm):
     x = 0
@@ -31,6 +42,7 @@ def vec_abs(vec, norm):
             break
         m *= norm[i]
     return x
+
 
 def vectorize(num, norm):
     vec = ()
@@ -48,14 +60,17 @@ def vectorize(num, norm):
         if i < 0:
             break
     return vec
-    
-def dateAbsDiff(vec1, vec2):
-    return vec_abs(vec_op(vec1, vec2, SubOp), DateVecNorm)
 
-def dateVectorize(secs):
-    return vectorize(secs, DateVecNorm)
 
-def dateStr(vec):
+def date_abs_diff(vec1, vec2):
+    return vec_abs(vec_op(vec1, vec2, sub_op), DATE_VEC_NORM)
+
+
+def date_vectorize(secs):
+    return vectorize(secs, DATE_VEC_NORM)
+
+
+def date_str(vec):
     if len(vec) == 0:
         return "0 sec"
     if len(vec) == 1:

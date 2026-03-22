@@ -7,7 +7,7 @@ import argparse
 from glob import glob
 from typing import Dict, Any, Tuple, Optional
 import capture
-from simpledatecalc import dateAbsDiff, dateVectorize, dateStr
+from simpledatecalc import date_abs_diff, date_vectorize, date_str
 
 # Filter for Facebook-related activity
 INFO_URL_MATCH = re.compile(r"^http(s?)://[a-z0-9.-]*facebook\.com(/.*)?$")
@@ -29,7 +29,7 @@ class StatsTracker:
     def flush_day(self):
         """Print current day stats if any exist."""
         if any(self.stats_day):
-            print(f"{self.stats_day} : {dateStr(dateVectorize(self.stats_count))}")
+            print(f"{self.stats_day} : {date_str(date_vectorize(self.stats_count))}")
 
     def update(self, timestamp: Tuple[int, ...], timespan: int):
         """Update stats with new activity."""
@@ -49,7 +49,7 @@ def process_logs(limit: Optional[int] = None):
     last_entry: Optional[Tuple[Tuple[int, ...], Dict[str, Any]]] = None
     
     # Process log files in chronological order
-    log_files = sorted(glob(os.path.join(capture.userdir, "capture-????-??-??")))
+    log_files = sorted(glob(os.path.join(capture.user_dir, "capture-????-??-??")))
     
     if limit:
         log_files = log_files[-limit:]
@@ -73,7 +73,7 @@ def process_logs(limit: Optional[int] = None):
                 
                 if matches_filter(info):
                     if last_entry:
-                        time_passed = dateAbsDiff(timestamp, last_entry[0])
+                        time_passed = date_abs_diff(timestamp, last_entry[0])
                         # Cap time gap to avoid issues with suspend/resume
                         if time_passed > 20:
                             time_passed = 20
