@@ -7,7 +7,7 @@ import argparse
 from glob import glob
 from typing import Dict, Any, Tuple, Optional
 import capture
-from simpledatecalc import dateAbsDiff, dateVectorize, dateStr, DateVecNorm
+from simpledatecalc import dateAbsDiff, dateVectorize, dateStr
 
 # Filter for Facebook-related activity
 INFO_URL_MATCH = re.compile(r"^http(s?)://[a-z0-9.-]*facebook\.com(/.*)?$")
@@ -61,9 +61,11 @@ def process_logs(limit: Optional[int] = None):
                 if not line:
                     continue
                 
+                # We expect lines to be (timestamp, info) tuples
                 try:
                     timestamp, info = ast.literal_eval(line)
                 except (ValueError, SyntaxError):
+                    # Skip malformed lines
                     continue
                     
                 if info is None:
@@ -84,11 +86,9 @@ def process_logs(limit: Optional[int] = None):
                         
                     # Ignore if user was idle for longer than the sampling interval
                     idle_time = info.get("idleTime", 0)
-                    try:
-                        idle_time = float(idle_time)
-                    except (ValueError, TypeError):
+                    if not isinstance(idle_time, (int, float)):
                         idle_time = 0
-                        
+                            
                     if idle_time > time_passed:
                         continue
                         
