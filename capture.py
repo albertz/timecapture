@@ -28,13 +28,19 @@ def main():
     os.makedirs(userdir, exist_ok=True)
 
     while True:
-        logfile = userdir + "/capture-" + datetime.date.today().isoformat()
-        logfile = open(logfile, "a")
-
+        logfile_path = userdir + "/capture-" + datetime.date.today().isoformat()
         timetuple = datetime.datetime.today().timetuple()[0:6]
 
-        logfile.write(repr((timetuple, get_app_info())) + "\n")
-        logfile.close()
+        try:
+            app_info = get_app_info()
+            res = (timetuple, app_info)
+            res_repr = repr(res)
+            with open(logfile_path, "a") as logfile:
+                logfile.write(res_repr + "\n")
+            print(res_repr)
+            sys.stdout.flush()
+        except Exception:
+            better_exchook.better_exchook(*sys.exc_info(), file=sys.stdout)
 
         time.sleep(10)
 
