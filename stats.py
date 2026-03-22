@@ -85,9 +85,13 @@ def process_logs(limit: Optional[int] = None):
                         time_passed = 10
                         
                     # Ignore if user was idle for longer than the sampling interval
+                    # We expect idleTime to be float or int (seconds), or sometimes str in old logs.
                     idle_time = info.get("idleTime", 0)
+                    if isinstance(idle_time, str):
+                        idle_time = float(idle_time)
+                    
                     if not isinstance(idle_time, (int, float)):
-                        idle_time = 0
+                        raise TypeError(f"Unexpected idleTime type in {fn}: {type(idle_time)} ({idle_time!r})")
                             
                     if idle_time > time_passed:
                         continue
